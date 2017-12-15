@@ -37,7 +37,7 @@ public class registerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // set onclick listerener and get authentication instance
+        // set onclick listener and get authentication instance
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new HandleClickSubmit());
 
