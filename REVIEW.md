@@ -1,6 +1,6 @@
 ## Peer review feedback:
 - sign in listener in MainActivity is anonymous
-- - not fixed
+- - fixed
 - comments boven functies zijn met // ipv /**
 - - done consistently, stays unchanged
 - code grouping binnen highscoresActivity is niet aanwezig

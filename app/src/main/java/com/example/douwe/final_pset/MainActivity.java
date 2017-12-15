@@ -77,22 +77,28 @@ public class MainActivity extends AppCompatActivity {
 
             // attempt sign-in
             mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // sign in success, update UI with the signed-in user's information
-                            Log.d("yes", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // if sign in fails, display a message to the user
-                            Log.w("yes", "signInWithEmail:failure", task.getException());
-                            TextView errorView = findViewById(R.id.errortext);
-                            errorView.setText(task.getException().toString());
-                        }
-                    }
-                });
+                .addOnCompleteListener(MainActivity.this, new logInCompleteListener());
+        }
+    }
+
+    // check if user succesfully logs in with given credentials and show next screen or error.
+    private class logInCompleteListener implements OnCompleteListener<AuthResult> {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            String TAG = "log in";
+            TextView errorView = findViewById(R.id.errortext);
+            if (task.isSuccessful()) {
+                // sign in success, update UI with the signed-in user's information
+                Log.d(TAG, "signInWithEmail:success");
+                FirebaseUser user = mAuth.getCurrentUser();
+                // hide possible previous errors and go to the next activity
+                errorView.setText("");
+                updateUI(user);
+            } else {
+                // if sign in fails, display a message to the user
+                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                errorView.setText(task.getException().toString());
+            }
         }
     }
 }
