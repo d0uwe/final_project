@@ -23,14 +23,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class loggedInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private HashMap<String, Object> current_scores;
+    private HashMap<String, Object> currentScores;
     private DatabaseReference ref = database.getReference("scores");
 
     @Override
@@ -58,14 +57,14 @@ public class loggedInActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("hashmap", current_scores);
+        outState.putSerializable("hashmap", currentScores);
     }
 
     // restore current scores in variable, which allows us to update the score.
     @Override
     public void onRestoreInstanceState(Bundle inState) {
         super.onRestoreInstanceState(inState);
-        current_scores = (HashMap<String, Object>) inState.getSerializable("hashmap");
+        currentScores = (HashMap<String, Object>) inState.getSerializable("hashmap");
     }
 
     // sign a user out
@@ -84,9 +83,9 @@ public class loggedInActivity extends AppCompatActivity {
             Map<String, Object> users = new HashMap<>();
             // get current user and his current score from the database
             final FirebaseUser currentUser = mAuth.getCurrentUser();
-            long currentscore = (long)current_scores.get(currentUser.getDisplayName());
+            long currentScore = (long) currentScores.get(currentUser.getDisplayName());
             // update score
-            users.put(mAuth.getCurrentUser().getDisplayName(), currentscore + 1);
+            users.put(mAuth.getCurrentUser().getDisplayName(), currentScore + 1);
             usersRef.updateChildren(users);
         }
     }
@@ -114,12 +113,11 @@ public class loggedInActivity extends AppCompatActivity {
             // This method is called once with the initial value and again
             // whenever data at this location is updated.
             final FirebaseUser currentUser = mAuth.getCurrentUser();
-            current_scores = (HashMap<String, Object>) dataSnapshot.getValue();
-            current_scores = (HashMap<String, Object>)current_scores.get("users");
-            TextView welcomeview = findViewById(R.id.textView2);
-            welcomeview.setText("welcome " + currentUser.getDisplayName() + " current score: " +
-                    current_scores.get(currentUser.getDisplayName()));
-            Log.d("getdata", "Value is: " + current_scores.toString());
+            currentScores = (HashMap<String, Object>) dataSnapshot.getValue();
+            currentScores = (HashMap<String, Object>) currentScores.get("users");
+            TextView welcomeView = findViewById(R.id.textView2);
+            welcomeView.setText("welcome " + currentUser.getDisplayName() + " current score: " +
+                    currentScores.get(currentUser.getDisplayName()));
         }
         @Override
         public void onCancelled(DatabaseError error) {

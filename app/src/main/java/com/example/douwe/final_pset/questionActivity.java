@@ -7,10 +7,12 @@
 
 package com.example.douwe.final_pset;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,9 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class questionActivity extends AppCompatActivity {
-    String current_answer;
+    String currentAnswer;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    Map<String, Object> current_scores;
+    Map<String, Object> currentScores;
     DatabaseReference ref = database.getReference("scores");
     private FirebaseAuth mAuth;
 
@@ -42,8 +44,8 @@ public class questionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        Button submitbutt = findViewById(R.id.submit);
-        submitbutt.setOnClickListener(new HandleClickSubmit());
+        Button submitButt = findViewById(R.id.submit);
+        submitButt.setOnClickListener(new HandleClickSubmit());
         mAuth = FirebaseAuth.getInstance();
         ref.addValueEventListener(new dataChangeListener());
         getString();
@@ -59,8 +61,7 @@ public class questionActivity extends AppCompatActivity {
                 new apiResponseListener(), new apiResponseErrorListener());
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
-        return "failed";
+        return "done";
     }
 
     // display the retrieved question
@@ -68,7 +69,7 @@ public class questionActivity extends AppCompatActivity {
         TextView question = findViewById(R.id.questiontextview);
         // split text in answer and questionActivity
         String parts[] = response.split(" ", 2);
-        current_answer = parts[0];
+        currentAnswer = parts[0];
         question.setText("what " + parts[1]);
     }
 
@@ -91,28 +92,42 @@ public class questionActivity extends AppCompatActivity {
     // check if the input of the user is corret
     private class HandleClickSubmit implements View.OnClickListener {
         public void onClick(View view) {
+            // hide keyboard
+            View focusView = questionActivity.this.getCurrentFocus();
+            if (focusView != null) {
+                InputMethodManager imm =
+                        (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+            }
+            // process answer
             EditText numberEditor = findViewById(R.id.numberinput);
             TextView resultView = findViewById(R.id.answertextview);
             String inputString = numberEditor.getText().toString();
+            numberEditor.setText("");
             // get the next question if nothing was entered
-            if (inputString == "") {
+            int input;
+            try {
+                input = Integer.parseInt(inputString);
+            } catch (Exception e) {
+                resultView.setText("You entered invalid input. We moved on to the next question");
                 getString();
                 return;
             }
 
-            // get actual input and compare
-            if (Integer.parseInt(inputString) == Integer.parseInt(current_answer)) {
+            // string is a valid int, check if it's the correct answer
+            if (input == Integer.parseInt(currentAnswer)) {
                 resultView.setText("You answered the last question correct, you earned 5000 points");
                 // reward 5000 points
                 DatabaseReference usersRef = ref.child("users");
                 // get current score to add the 5000 points to
                 Map<String, Object> users = new HashMap<>();
                 final FirebaseUser currentUser = mAuth.getCurrentUser();
-                long currentscore = (long)current_scores.get(currentUser.getDisplayName());
-                users.put(mAuth.getCurrentUser().getDisplayName(), currentscore + 5000);
+                long currentScore = (long) currentScores.get(currentUser.getDisplayName());
+                users.put(mAuth.getCurrentUser().getDisplayName(), currentScore + 5000);
                 usersRef.updateChildren(users);
             } else {
-                resultView.setText("Wrong, the true answer on the last question was " + current_answer);
+                resultView.setText("Wrong, the true answer on the last question was " +
+                        currentAnswer);
             }
             // get a new question
             getString();
@@ -125,8 +140,8 @@ public class questionActivity extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             // this method is called once with the initial value and again
             // whenever data at this location is updated
-            current_scores = (Map<String, Object>) dataSnapshot.getValue();
-            current_scores = (Map<String, Object>)current_scores.get("users");
+            currentScores = (Map<String, Object>) dataSnapshot.getValue();
+            currentScores = (Map<String, Object>) currentScores.get("users");
         }
         @Override
         public void onCancelled(DatabaseError error) {

@@ -48,11 +48,11 @@ public class registerActivity extends AppCompatActivity {
             // get provided username, password and displayname
             EditText emailEditText = findViewById(R.id.editText);
             EditText passwordEditText = findViewById(R.id.editText2);
-            EditText displaynameExitText = findViewById(R.id.displayname);
+            EditText displaynameEditText = findViewById(R.id.displayname);
 
             String password = passwordEditText.getText().toString();
             String email = emailEditText.getText().toString();
-            username = displaynameExitText.getText().toString();
+            username = displaynameEditText.getText().toString();
 
             mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(registerActivity.this, new onDoneCreatingUser());
@@ -85,8 +85,8 @@ public class registerActivity extends AppCompatActivity {
             } else {
                 // if sign in fails, display a message to the user
                 Log.w("no", "createUserWithEmail:failure", task.getException());
-                TextView errortext = findViewById(R.id.errortext);
-                errortext.setText(task.getException().toString());
+                TextView errorText = findViewById(R.id.errortext);
+                errorText.setText(task.getException().toString());
             }
         }
     }
