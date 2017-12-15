@@ -6,7 +6,7 @@
 - code grouping binnen highscoresActivity is niet aanwezig
 - - fixed
 - loggedInActivity: alle onclicklisteners worden in de code gezet maar is niet dynamisch. Kan beter in xml
-- - not fixed
+- - not fixed, i see no way around this when the listeners are a private class
 - witregels in loggedInActivity zouden de leesbaarheid hier en daar wat verhogen
 - - fixed
 - in questionActivity: kan de database final zijn? Vgm kan die veranderen
