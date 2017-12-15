@@ -100,7 +100,7 @@ public class loggedInActivity extends AppCompatActivity {
         }
     }
 
-    // go the the questionActivity activity
+    // go the the question activity
     private class HandleClickQuestion implements View.OnClickListener {
         public void onClick(View view) {
             Intent intent = new Intent(loggedInActivity.this, questionActivity.class);

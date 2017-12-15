@@ -36,9 +36,11 @@ public class registerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         // set onclick listerener and get authentication instance
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(new HandleClickSubmit());
+
         mAuth = FirebaseAuth.getInstance();
     }
 
