@@ -12,13 +12,5 @@ When having trouble compiling the project on your device, try cleaning the proje
 [![BCH compliance](https://bettercodehub.com/edge/badge/d0uwe/final_project?branch=master)](https://bettercodehub.com/)
 
 
-## Peer review feedback:
-- sign in listener in MainActivity is anonymous
-- comments boven functies zijn met // ipv /**
-- code grouping binnen highscoresActivity is niet aanwezig
-- loggedInActivity: alle onclicklisteners worden in de code gezet maar is niet dynamisch. Kan beter in xml
-- witregels in loggedInActivity zouden de leesbaarheid hier en daar wat verhogen
-- in questionActivity: kan de database final zijn? Vgm kan die veranderen
-- bij parseResponse in questionActivity, misschien kun je uitleggen waarom er ineens "what " komt te staan?
-- onComplete in OnDoneCreatingUser in registerActivity is wat lang, misschien kan dit opgedeeld worden in functies.
-- WITREGELS :OnDoneCreatingUser
+## Peer review feedback
+Things the reviewer pointed out can be found in REVIEW.md, together with what action has been done to resolve these.
