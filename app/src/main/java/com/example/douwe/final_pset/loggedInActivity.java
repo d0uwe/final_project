@@ -81,9 +81,11 @@ public class loggedInActivity extends AppCompatActivity {
             // get database containing all scores
             DatabaseReference usersRef = ref.child("users");
             Map<String, Object> users = new HashMap<>();
+
             // get current user and his current score from the database
             final FirebaseUser currentUser = mAuth.getCurrentUser();
             long currentScore = (long) currentScores.get(currentUser.getDisplayName());
+
             // update score
             users.put(mAuth.getCurrentUser().getDisplayName(), currentScore + 1);
             usersRef.updateChildren(users);
@@ -115,6 +117,8 @@ public class loggedInActivity extends AppCompatActivity {
             final FirebaseUser currentUser = mAuth.getCurrentUser();
             currentScores = (HashMap<String, Object>) dataSnapshot.getValue();
             currentScores = (HashMap<String, Object>) currentScores.get("users");
+
+            // display username and score
             TextView welcomeView = findViewById(R.id.textView2);
             welcomeView.setText("welcome " + currentUser.getDisplayName() + " current score: " +
                     currentScores.get(currentUser.getDisplayName()));

@@ -64,10 +64,11 @@ public class questionActivity extends AppCompatActivity {
         return "done";
     }
 
-    // display the retrieved question
+    // display the retrieved question, but replacing the answer (always in the first position)
+    // with "what".
     void parseResponse(String response){
         TextView question = findViewById(R.id.questiontextview);
-        // split text in answer and questionActivity
+        // split text in answer and question
         String parts[] = response.split(" ", 2);
         currentAnswer = parts[0];
         question.setText("what " + parts[1]);
@@ -137,6 +138,7 @@ public class questionActivity extends AppCompatActivity {
     // keep track of the lastest scores in the database, so a score is updated to the right amount
     private class dataChangeListener implements ValueEventListener {
         @Override
+        // update known scores for all users
         public void onDataChange(DataSnapshot dataSnapshot) {
             // this method is called once with the initial value and again
             // whenever data at this location is updated
@@ -144,6 +146,7 @@ public class questionActivity extends AppCompatActivity {
             currentScores = (Map<String, Object>) currentScores.get("users");
         }
         @Override
+        // do nothing untill the next sucessful attempt
         public void onCancelled(DatabaseError error) {
             // Failed to read value
             Log.w("getdata", "Failed to read value.", error.toException());

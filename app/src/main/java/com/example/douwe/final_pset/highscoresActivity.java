@@ -59,6 +59,7 @@ public class highscoresActivity extends AppCompatActivity {
                     android.R.layout.simple_list_item_1, highscores);
             listViewer.setAdapter(listAdapter);
         }
+
         @Override
         public void onCancelled(DatabaseError error) {
             // Failed to read value
