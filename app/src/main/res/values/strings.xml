@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">final_pset</string>
+    <string name="register">Register</string>
+    <string name="submit">Submit</string>
+    <string name="username">Username</string>
+    <string name="succes">succes.</string>
+    <string name="log_out">Log out</string>
+    <string name="increment">increment</string>
+    <string name="highscores">highscores</string>
+    <string name="question">Question</string>
+</resources>
