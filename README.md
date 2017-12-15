@@ -7,3 +7,6 @@ Screenshots can be found in the docs folder
 
 ## Compiling
 When having trouble compiling the project on your device, try cleaning the project (build --> clean project)
+
+## Better code hub
+[![BCH compliance](https://bettercodehub.com/edge/badge/d0uwe/final_project?branch=master)](https://bettercodehub.com/)
